@@ -12,47 +12,48 @@ using namespace std;
 template <typename V>
 class BSTreeDict : public Dict<V> {
 private:
-    BSTree<TableEntry<V>>* tree; // Árbol binario de búsqueda para gestionar el diccionario.
+    BSTree<TableEntry<V>>* tree;
 
 public:
     BSTreeDict() {
-        tree = new BSTree<TableEntry<V>>(); // Crear un ABB vacío.
+        tree = new BSTree<TableEntry<V>>();
     }
 
     ~BSTreeDict() {
-        delete tree; // Liberar memoria dinámica ocupada por el ABB.
+        delete tree;
+    }
+
+    int entries() override {
+        return tree->size();
     }
 
     void insert(string key, V value) override {
         TableEntry<V> entry(key, value);
-        tree->insert(entry); // Insertar el par clave-valor en el ABB.
+        tree->insert(entry);
     }
 
     V search(string key) override {
         TableEntry<V> entry(key);
-        return tree->search(entry).value; // Buscar el valor asociado a la clave.
+        return tree->search(entry).value;
     }
 
     V remove(string key) override {
         TableEntry<V> entry(key);
-        V value = tree->search(entry).value; // Obtener el valor antes de eliminarlo.
-        tree->remove(entry); // Eliminar el par clave-valor del ABB.
+        V value = tree->search(entry).value;
+        tree->remove(entry);
         return value;
     }
 
-    int entries() override {
-        return tree->size(); // Devolver el número de elementos en el ABB.
-    }
-
     V operator[](string key) {
-        return search(key); // Interfaz al método search para buscar valores por clave.
+        return search(key);
     }
 
     friend ostream& operator<<(ostream& out, const BSTreeDict<V>& bs) {
-        out << *(bs.tree); // Imprimir el contenido del ABB.
+        out << *(bs.tree);
         return out;
     }
 };
 
 #endif
+
 
