@@ -6,31 +6,39 @@
 
 using namespace std;
 
-template <typename V> 
+template <typename V>
 class TableEntry {
-    public:
-        string key;
-        V value;
+public:
+    string key;
+    V value;
 
-        TableEntry(string key, V value) : key(key), value(value) {}
+    TableEntry(string key, V value) : key(key), value(value) {}
+    TableEntry(string key) : key(key), value(V()) {}
+    TableEntry() : key(""), value(V()) {}
 
-        TableEntry(string key) : key(key) {}
+    friend bool operator==(const TableEntry<V>& te1, const TableEntry<V>& te2) {
+        return te1.key == te2.key;
+    }
 
-        TableEntry() : key("") {}
+    friend bool operator!=(const TableEntry<V>& te1, const TableEntry<V>& te2) {
+        return !(te1 == te2);
+    }
 
-        friend bool operator==(const TableEntry<V>& te1, const TableEntry<V>& te2) {
-            return te1.key == te2.key;
-        }
+    friend bool operator<(const TableEntry<V>& te1, const TableEntry<V>& te2) {
+        return te1.key < te2.key;
+    }
 
-        friend bool operator!=(const TableEntry<V>& te1, const TableEntry<V>& te2) {
-            return !(te1 == te2);
-        }
+    friend bool operator>(const TableEntry<V>& te1, const TableEntry<V>& te2) {
+        return te1.key > te2.key;
+    }
 
-        friend ostream& operator<<(ostream& out, const TableEntry<V>& te) {
-            out << "Key: " << te.key << ", Value: " << te.value;
-            return out;
-        }
+    friend ostream& operator<<(ostream& out, const TableEntry<V>& te) {
+        out << "Key: " << te.key << ", Value: " << te.value;
+        return out;
+    }
 };
 
 #endif
+
+
 
